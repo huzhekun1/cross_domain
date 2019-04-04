@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.1.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="jasmine-standalone-3.3.0/lib/jasmine-3.3.0/jasmine.css">
+    <script src="jasmine-standalone-3.3.0/lib/jasmine-3.3.0/jasmine.js"></script>
+    <script src="jasmine-standalone-3.3.0/lib/jasmine-3.3.0/jasmine-html.js"></script>
+    <script src="jasmine-standalone-3.3.0/lib/jasmine-3.3.0/boot.js"></script>
+</head>
+<body>
+    <!--<a href="#" onclick="ajaxRequest()">Ajax请求</a>-->
+    <!--<img src="http://localhost:8080/api/getApi" alt="">-->
+</body>
+
+<script>
+//    var baseUrl = "http://server.com";
+//    var baseUrl = "http://localhost:8080";
+    var baseUrl = "/server_apache";
+   /* function ajaxRequest() {
+        $.getJSON(baseUrl + "/api/getApi").then(
+            function (result) {
+                console.log(result);
+            }
+        );
+    }*/
+
+    //设置测试用例超时时间
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 3000;
+
+    //测试模块
+    describe("跨域请求测试用例",function () {
+        /*it("JSONP请求",function (done) {
+            var result;
+
+           /!* $.getJSON(baseUrl + "/api/getApi").then(
+                function (result) {
+                    this.result = result;
+                }
+            );*!/
+
+           $.ajax({
+               url : baseUrl + "/api/getApi",
+               //dataType : "jsonp",
+               //type : "post",
+               //jsonp : "callback2",//指定参数名
+               //jsonpCallback: "resultCallback",  //指定回调函数名
+               success: function (json) {
+                   result = json;
+               }
+           });
+
+            //异步请求 延迟比较结果
+            setTimeout(function () {
+                console.log("setTimeout:"+result);
+                //expect(result).toBe("ApiController.getApi");
+                expect(result).toEqual({
+                    "code" : 200,
+                    "data" : "ApiController.getApi"
+                });
+
+                //测试结束 通知jasmine
+                done();
+            },2000);*/
+
+        /*it("POST非简单请求",function (done) {
+            var result;
+
+            $.ajax({
+                url : baseUrl + "/api/postApi",
+                type : "post",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify({ name : "肖申克的救赎", price : 50.01}),
+                success: function (json) {
+                    result = json;
+                }
+            });
+
+            //异步请求 延迟比较结果
+            setTimeout(function () {
+                console.log("setTimeout:"+result);
+                expect(result).toEqual({
+                    "code" : 200,
+                    "data" : "ApiController.postApi 肖申克的救赎 50.01"
+                });
+
+                //测试结束 通知jasmine
+                done();
+            },2000);
+        })*/
+
+        /*it("带有Cookie请求",function (done) {
+            var result;
+
+            $.ajax({
+                url : baseUrl + "/api/getCookie",
+                type : "get",
+                xhrFields : { withCredentials : true },
+                success: function (json) {
+                    result = json;
+                }
+            });
+
+            //异步请求 延迟比较结果
+            setTimeout(function () {
+                console.log("setTimeout:"+result);
+                expect(result).toEqual({
+                    "code" : 200,
+                    "data" : "ApiController.getCookie msg"
+                });
+
+                //测试结束 通知jasmine
+                done();
+            },2000);
+        })*/
+
+        it("带有自定义头的请求",function (done) {
+            var result;
+
+            $.ajax({
+                url : baseUrl + "/api/getHeader",
+                type : "get",
+                headers : {"X-Header-1" : "x1"},
+                beforeSend : function (xhr) {
+                  xhr.setRequestHeader("X-Header-2","x2");
+                },
+                success: function (json) {
+                    result = json;
+                }
+            });
+
+            //异步请求 延迟比较结果
+            setTimeout(function () {
+                console.log("setTimeout:"+result);
+                expect(result).toEqual({
+                    "code" : 200,
+                    "data" : "ApiController.getHeader x1 x2"
+                });
+
+                //测试结束 通知jasmine
+                done();
+            },2000);
+        })
+    })
+
+</script>
+</html>
